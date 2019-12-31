@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final static String TAG_YESNO = "1";
     private final static String TAG_TEXT = "2";
     private final static String TAG_WEB = "3";
+    private final static String TAG_JWORG = "4";
+    private final static String TAG_VOD = "5";
+    private final static String TAG_OLL = "6";
 
 
     @Override
@@ -34,10 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         layout.setOrientation(LinearLayout.VERTICAL);
         setContentView(layout);
 
-        layout.addView(makeButton("メッセージダイアログの表示", TAG_MESSAGE));
-        layout.addView(makeButton("YesNoダイアログの表示", TAG_YESNO));
-        layout.addView(makeButton("テキスト入力ダイアログの表示", TAG_TEXT));
-        layout.addView(makeButton("WEBページの表示", TAG_WEB));
+        layout.addView(makeButton("JW.org", TAG_JWORG));
+        layout.addView(makeButton("ブロードキャスティング", TAG_VOD));
+        layout.addView(makeButton("オンラインライブラリ", TAG_OLL));
+        layout.addView(makeButton("yahoo!", TAG_WEB));
     }
 
     /**
@@ -71,6 +74,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public void onClick(View view) {
         String tag = (String) view.getTag();
+
+        if (TAG_JWORG.equals(tag)) {
+            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.jw.org/ja/"));
+            startActivity(intent);
+        }
+
+        if (TAG_OLL.equals(tag)) {
+            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://wol.jw.org/ja/wol/h/r7/lp-j"));
+            startActivity(intent);
+        }
+
+        if (TAG_VOD.equals(tag)) {
+            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.jw.org/ja/%E3%83%A9%E3%82%A4%E3%83%96%E3%83%A9%E3%83%AA%E3%83%BC/%E3%83%93%E3%83%87%E3%82%AA/#/ja/categories/VODStudio"));
+            startActivity(intent);
+        }
 
         if (TAG_WEB.equals(tag)) {
             Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.yahoo.co.jp"));
