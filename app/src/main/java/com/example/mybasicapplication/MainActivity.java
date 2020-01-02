@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final static String TAG_JWORG = "4";
     private final static String TAG_VOD = "5";
     private final static String TAG_OLL = "6";
+    private TextView textView;
+    private final static int REQUEST_TEXT = 0;
 
 
     @Override
@@ -41,6 +43,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         layout.addView(makeButton("ブロードキャスティング", TAG_VOD));
         layout.addView(makeButton("オンラインライブラリ", TAG_OLL));
         layout.addView(makeButton("yahoo!", TAG_WEB));
+
+        textView = new TextView(this);
+        textView.setText("これはテストです。");
+        textView.setTextColor(Color.BLACK);
+        textView.setLayoutParams(new LinearLayout.LayoutParams(WC, WC));
+        layout.addView(textView);
+
     }
 
     /**
@@ -91,8 +100,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if (TAG_WEB.equals(tag)) {
-            Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.yahoo.co.jp"));
-            startActivity(intent);
+            //Intent intent = new Intent("android.intent.action.VIEW", Uri.parse("https://www.yahoo.co.jp"));
+            //startActivity(intent);
+
+            Intent intent = new Intent(this, MyActivity.class);
+            intent.putExtra("text", textView.getText().toString());
+            startActivityForResult(intent, REQUEST_TEXT);
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        if (requestCode == REQUEST_TEXT && resultCode == RESULT_OK) {
+            String text = "";
+            Bundle extras = intent.getExtras();
+            if (extras != null) text = extras.getString("text");
+
+            textView.setText(text);
+        }
+
+    }
+
 }
