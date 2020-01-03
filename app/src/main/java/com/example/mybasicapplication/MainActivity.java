@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         layout.addView(makeButton("yahoo!", TAG_WEB));
 
         textView = new TextView(this);
-        textView.setText("これはテストです。");
+        textView.setText("これはテストですかね？？？");
         textView.setTextColor(Color.BLACK);
         textView.setLayoutParams(new LinearLayout.LayoutParams(WC, WC));
         layout.addView(textView);
@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             Intent intent = new Intent(this, MyActivity.class);
             intent.putExtra("text", textView.getText().toString());
+            intent.putExtra("name", "あーりーまーろー");
+            setResult(RESULT_OK, intent);
             startActivityForResult(intent, REQUEST_TEXT);
         }
     }
