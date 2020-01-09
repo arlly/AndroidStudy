@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">My BasicApplication</string>
+    <string name="app_name">LinerBasic</string>
+    <string-array name="spice">
+        <item>トルクフレックス</item>
+        <item>パワースペリアー</item>
+        <item>テクニカルパフォーマー</item>
+        <item>エアロブースター</item>
+        <item>グラハント</item>
+        <item>ディープマニピュレーター</item>
+        <item>マルチアーマメント</item>
+        <item>フェザーストローク</item>
+    </string-array>
 </resources>
