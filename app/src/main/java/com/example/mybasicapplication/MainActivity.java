@@ -50,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         data.add("フェザーストローク");
         data.add("マグナムドライバー");
         data.add("スイッチバック");
+        data.add("TAV-GP69CMJ");
+        data.add("TAV-GP65CLJ");
+        data.add("GWT-70CHJ");
+        data.add("フロストフラワー");
+        data.add("ELT-64SULJ");
+        data.add("ELT-66CLJ");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
