@@ -17,10 +17,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,42 +41,39 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        final ArrayList<String> data = new ArrayList<>();
-        data.add("トルクフレックス");
-        data.add("パワースペリア");
-        data.add("テクニカルパフォーマー");
-        data.add("エアロブースター");
-        data.add("グラハント");
-        data.add("ディープマニピュレーター");
-        data.add("マルチアーマメント");
-        data.add("フェザーストローク");
-        data.add("マグナムドライバー");
-        data.add("スイッチバック");
-        data.add("TAV-GP69CMJ");
-        data.add("TAV-GP65CLJ");
-        data.add("GWT-70CHJ");
-        data.add("フロストフラワー");
-        data.add("ELT-64SULJ");
-        data.add("ELT-66CLJ");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, data);
+        String titles[] = {"トルクフレックス", "パワースペリア", "テクニカルパフォーマー", "エアロブースター", "グラハント"};
+        String tags[] = {"75H", "73MH", "610M", "610ML", "70H"};
+        String descs[] = {
+                "超異例の取り組みだ。若手野手の台頭が課題のソフトバンクが今春キャンプで期待の育成野手をＡ組に抜てきする「特別枠」を設ける計画が明らかになった。",
+                "投手、野手それぞれ２０人程度で構成されるＡ組。",
+                "森ヘッドコーチが異例のプランを明かした。「野手の２０人目のところに枠をつくって、そこに毎クール育成から若手を呼びたいと思っている。",
+                "かねてフロント、一軍、ファームで緊密に情報共有し、若手育成に力を入れているソフトバンク。",
+                "メンタルや取り組み方に問題がある。成功している人間がどれだけ自分を律しているかをいくら言い聞かせても伝わらないところがある。だから見学程度じゃなく、ある程度のスパンで主力が本気でやっている姿を見せたい。",
+        };
+
+        ArrayList<HashMap<String, String>> data = new ArrayList<>();
+        for (int i = 0; i < titles.length; i++) {
+            HashMap<String, String> item = new HashMap<>();
+            item.put("title", titles[i]);
+            item.put("tag", tags[i]);
+            item.put("desc", descs[i]);
+            data.add(item);
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(
+                this, data, R.layout.list_item,
+                new String[]{"title", "tag", "desc"},
+                new int[]{R.id.title, R.id.tag, R.id.desc}
+        );
+
         ListView list = findViewById(R.id.list);
         list.setAdapter(adapter);
 
-        list.setOnItemClickListener(
-                new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        CharSequence msg = ((TextView) view).getText();
-                        Toast.makeText(MainActivity.this, String.format("選択したのは%s", msg.toString()), Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
 
-        this.playSound();
     }
 
     private void playSound() {
