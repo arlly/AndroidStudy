@@ -19,4 +19,9 @@
         android:inputType="textMultiLine"
         android:lines="10" />
 
+    <TextView
+        android:id="@+id/viewMemo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 </LinearLayout>

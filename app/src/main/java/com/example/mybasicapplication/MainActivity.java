@@ -2,14 +2,9 @@ package com.example.mybasicapplication;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.DialogFragment;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,13 +15,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private final static  int WC = LinearLayout.LayoutParams.WRAP_CONTENT;
+    private final static int WC = LinearLayout.LayoutParams.WRAP_CONTENT;
     private final static String TAG_MESSAGE = "0";
     private final static String TAG_YESNO = "1";
     private final static String TAG_TEXT = "2";
@@ -38,19 +35,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final static int REQUEST_TEXT = 0;
 
     EditText textMemo;
+    TextView viewMemo;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         textMemo = findViewById(R.id.textMemo);
+        viewMemo = findViewById(R.id.viewMemo);
+
+        StringBuffer str = displayMemo();
+        viewMemo.setText(str.toString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void saveText(View view) {
-        try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput("memo.dat", Context.MODE_PRIVATE)))) {
+        try (BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput("memo.dat", Context.MODE_APPEND)))) {
             writer.write(textMemo.getText().toString());
 
             Context context = getApplicationContext();
@@ -60,13 +63,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
 
+            StringBuffer str = displayMemo();
+            viewMemo.setText(str.toString());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public StringBuffer displayMemo() {
+        StringBuffer str = new StringBuffer();
+
+        try (BufferedReader reader = new BufferedReader((new InputStreamReader(openFileInput("memo.dat"))))){
+            String line;
+            while ((line = reader.readLine()) != null) {
+                str.append(line);
+                str.append(System.getProperty("line separator"));
+            }
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return str;
+    }
+
     /**
-     *
      * @param text
      * @param tag
      * @return
@@ -82,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     /**
-     *
      * @param view
      */
     public void onClick(View view) {
