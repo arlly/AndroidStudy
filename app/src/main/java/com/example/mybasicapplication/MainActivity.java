@@ -1,19 +1,28 @@
 package com.example.mybasicapplication;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -28,28 +37,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView textView;
     private final static int REQUEST_TEXT = 0;
 
+    EditText textMemo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-        LinearLayout layout = new LinearLayout(this);
-        layout.setBackgroundColor(Color.BLUE);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        setContentView(layout);
+        textMemo = findViewById(R.id.textMemo);
+    }
 
-        layout.addView(makeButton("JW.org", TAG_JWORG));
-        layout.addView(makeButton("ブロードキャスティング", TAG_VOD));
-        layout.addView(makeButton("オンラインライブラリ", TAG_OLL));
-        layout.addView(makeButton("yahoo!", TAG_WEB));
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void saveText(View view) {
+        try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(openFileOutput("memo.dat", Context.MODE_PRIVATE)))) {
+            writer.write(textMemo.getText().toString());
 
-        textView = new TextView(this);
-        textView.setText("これはテストですかね？？？");
-        textView.setTextColor(Color.BLACK);
-        textView.setLayoutParams(new LinearLayout.LayoutParams(WC, WC));
-        layout.addView(textView);
+            Context context = getApplicationContext();
+            CharSequence text = "保存しました!";
+            int duration = Toast.LENGTH_SHORT;
 
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -66,15 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         button.setLayoutParams(new LinearLayout.LayoutParams(WC, WC));
         return button;
     }
-
-    /**
-     * @param view
-     */
-    public void changeLabel(View view) {
-        TextView tv = (TextView) findViewById(R.id.chage);
-        tv.setText("ありまろ！！");
-    }
-
 
 
     /**
