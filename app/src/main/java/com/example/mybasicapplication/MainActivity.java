@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,25 +56,20 @@ public class MainActivity extends AppCompatActivity {
                 "メンタルや取り組み方に問題がある。成功している人間がどれだけ自分を律しているかをいくら言い聞かせても伝わらないところがある。だから見学程度じゃなく、ある程度のスパンで主力が本気でやっている姿を見せたい。",
         };
 
-        ArrayList<HashMap<String, String>> data = new ArrayList<>();
-        for (int i = 0; i < titles.length; i++) {
-            HashMap<String, String> item = new HashMap<>();
-            item.put("title", titles[i]);
-            item.put("tag", tags[i]);
-            item.put("desc", descs[i]);
+        ArrayList<ListItem> data = new ArrayList<>();
+
+        for(int i = 0; i < titles.length; i++) {
+            ListItem item = new ListItem();
+            item.setId((new Random()).nextLong());
+            item.setTitle(titles[i]);
+            item.setTag(tags[i]);
+            item.setDesc(descs[i]);
             data.add(item);
         }
 
-        SimpleAdapter adapter = new SimpleAdapter(
-                this, data, R.layout.list_item,
-                new String[]{"title", "tag", "desc"},
-                new int[]{R.id.title, R.id.tag, R.id.desc}
-        );
-
+        MyListAdapter adapter = new MyListAdapter(this, data, R.layout.list_item);
         ListView list = findViewById(R.id.list);
         list.setAdapter(adapter);
-
-
     }
 
     private void playSound() {
