@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -37,12 +38,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText textMemo;
     TextView viewMemo;
 
+    private SimpleDatabaseHelper helper = null;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        helper = new SimpleDatabaseHelper(this);
+
+        try(SQLiteDatabase db = helper.getWritableDatabase()) {
+            Toast toast = Toast.makeText(this, "接続しました", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+
 
         textMemo = findViewById(R.id.textMemo);
         viewMemo = findViewById(R.id.viewMemo);
