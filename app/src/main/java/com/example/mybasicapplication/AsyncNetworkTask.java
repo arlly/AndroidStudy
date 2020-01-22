@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.SystemClock;
 import android.util.Log;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
@@ -21,11 +22,13 @@ import java.nio.charset.StandardCharsets;
 
 public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
     private WeakReference<TextView> textResult;
+    private WeakReference<ProgressBar> progress;
 
     AsyncNetworkTask(Context context) {
         super();
         MainActivity activity = (MainActivity) context;
         textResult = new WeakReference<>((TextView) activity.findViewById(R.id.textResult));
+        progress = new WeakReference<>((ProgressBar)activity.findViewById(R.id.progress));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -38,7 +41,7 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
 
         try {
             URL url = new URL(params[0]);
-            HttpURLConnection con = (HttpURLConnection)url.openConnection();
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
             BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
             String line;
@@ -54,21 +57,26 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
     }
 
     @Override
+    protected void onPreExecute() {
+        progress.get().setVisibility(ProgressBar.VISIBLE);
+    }
+
+    @Override
     protected void onProgressUpdate(Integer... values) {
-        Log.d("url", values[0].toString());
+        progress.get().setProgress(values[0]);
     }
 
     @Override
     protected void onPostExecute(String result) {
         textResult.get().setText(result);
+        progress.get().setVisibility(ProgressBar.GONE);
     }
 
     @Override
     protected void onCancelled() {
         textResult.get().setText("キャンセルされました。");
+        progress.get().setVisibility(ProgressBar.GONE);
     }
-
-
 
 
 }

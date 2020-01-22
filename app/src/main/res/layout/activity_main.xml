@@ -4,6 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="100"
+        android:visibility="gone" />
+
+
     <TextView
         android:id="@+id/textResult"
         android:layout_width="wrap_content"
@@ -15,4 +24,6 @@
         android:layout_height="wrap_content"
         android:onClick="buttonOnClick"
         android:text="キャンセル" />
+
+
 </LinearLayout>
