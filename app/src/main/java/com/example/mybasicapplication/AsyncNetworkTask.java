@@ -12,6 +12,10 @@ import androidx.annotation.RequiresApi;
 
 import com.example.mybasicapplication.MainActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -28,7 +32,7 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
         super();
         MainActivity activity = (MainActivity) context;
         textResult = new WeakReference<>((TextView) activity.findViewById(R.id.textResult));
-        progress = new WeakReference<>((ProgressBar)activity.findViewById(R.id.progress));
+        progress = new WeakReference<>((ProgressBar) activity.findViewById(R.id.progress));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -38,6 +42,7 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
         SystemClock.sleep(3000);
         publishProgress(60);
         StringBuilder builder = new StringBuilder();
+        StringBuilder list = new StringBuilder();
 
         try {
             URL url = new URL(params[0]);
@@ -48,12 +53,30 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
             while ((line = reader.readLine()) != null) {
                 builder.append(line);
             }
+
+            try {
+                JSONObject json = new JSONObject(builder.toString());
+                JSONArray weathers = json.getJSONArray("forecasts");
+
+                for (int i = 0; i < weathers.length(); i++) {
+                    JSONObject weather = weathers.getJSONObject(i);
+                    list.append(weather.getString("dateLabel")).append("/");
+                    list.append(weather.getString("telop")).append("\n");
+                }
+
+                JSONObject description = json.getJSONObject("description");
+                list.append(description.getString("text"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         publishProgress(100);
-        return builder.toString();
+        return list.toString();
     }
 
     @Override

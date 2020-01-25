@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         task = new AsyncNetworkTask(this);
-        task.execute("https://wings.msn.to/");
+        task.execute("http://weather.livedoor.com/forecast/webservice/json/v1?city=250010");
 
     }
 
