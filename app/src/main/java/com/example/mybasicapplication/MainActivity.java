@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         progressBar = findViewById(R.id.spinner);
 
         Bundle bundle = new Bundle();
-        bundle.putString("url", "https://wings.msn.to/");
+        bundle.putString("url", "http://weather.livedoor.com/forecast/webservice/json/v1?city=250010");
         LoaderManager.getInstance(this).initLoader(1, bundle, this);
 
         //task = new AsyncNetworkTask(this);
