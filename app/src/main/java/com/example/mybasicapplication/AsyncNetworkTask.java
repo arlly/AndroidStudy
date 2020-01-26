@@ -32,7 +32,7 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
         super();
         MainActivity activity = (MainActivity) context;
         textResult = new WeakReference<>((TextView) activity.findViewById(R.id.textResult));
-        progress = new WeakReference<>((ProgressBar) activity.findViewById(R.id.progress));
+        progress = new WeakReference<>((ProgressBar) activity.findViewById(R.id.spinner));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
