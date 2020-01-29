@@ -69,8 +69,6 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
