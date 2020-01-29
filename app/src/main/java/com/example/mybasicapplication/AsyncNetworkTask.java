@@ -57,6 +57,7 @@ public class AsyncNetworkTask extends AsyncTask<String, Integer, String> {
             try {
                 JSONObject json = new JSONObject(builder.toString());
                 JSONArray weathers = json.getJSONArray("forecasts");
+                Log.d("return値:", weathers.toString());
 
                 for (int i = 0; i < weathers.length(); i++) {
                     JSONObject weather = weathers.getJSONObject(i);
