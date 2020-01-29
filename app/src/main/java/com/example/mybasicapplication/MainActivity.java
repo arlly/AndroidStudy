@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -16,6 +18,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     AsyncNetworkTask task;
     TextView textResult;
     ProgressBar progressBar;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void buttonOnClick(View view) {
+        WebView wv = findViewById(R.id.wv);
         task.cancel(true);
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.cat1a);
+        mediaPlayer.setLooping(false);
+        mediaPlayer.seekTo(0);
+        mediaPlayer.start();
+
+        wv.loadUrl("https://weather.yahoo.co.jp/weather/jp/25/6010.html");
     }
 
     @NonNull

@@ -44,6 +44,7 @@ public class MyAsyncLoader extends AsyncTaskLoader<String> {
 
             HttpURLConnection con = (HttpURLConnection) url.openConnection();
             con.setRequestMethod("GET");
+            con.setRequestProperty("Content-Type", "application/json; charset=utf-8");
             BufferedReader reader = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
 
             try {
@@ -61,6 +62,7 @@ public class MyAsyncLoader extends AsyncTaskLoader<String> {
                 list.append(description.getString("text"));
 
             } catch (JSONException e) {
+                Log.e("error:", "接続エラーです。");
                 e.printStackTrace();
             }
 
