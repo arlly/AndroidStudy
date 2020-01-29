@@ -25,12 +25,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         textResult = findViewById(R.id.textResult);
         progressBar = findViewById(R.id.spinner);
 
-        Bundle bundle = new Bundle();
-        bundle.putString("url", "http://weather.livedoor.com/forecast/webservice/json/v1?city=250010");
-        LoaderManager.getInstance(this).initLoader(1, bundle, this);
+        //Bundle bundle = new Bundle();
+        //bundle.putString("url", "http://weather.livedoor.com/forecast/webservice/json/v1?city=250010");
+        //LoaderManager.getInstance(this).initLoader(1, bundle, this);
 
-        //task = new AsyncNetworkTask(this);
-        //task.execute("http://weather.livedoor.com/forecast/webservice/json/v1?city=250010");
+        task = new AsyncNetworkTask(this);
+        task.execute("http://weather.livedoor.com/forecast/webservice/json/v1?city=250010");
 
     }
 
