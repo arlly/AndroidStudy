@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -19,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     TextView textResult;
     ProgressBar progressBar;
     private MediaPlayer mediaPlayer;
+    WebView wv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         textResult = findViewById(R.id.textResult);
         progressBar = findViewById(R.id.spinner);
+
+        wv = findViewById(R.id.wv);
+        wv.setWebViewClient(new MyWebViewClient());
 
         //Bundle bundle = new Bundle();
         //bundle.putString("url", "http://weather.livedoor.com/forecast/webservice/json/v1?city=250010");
@@ -38,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     public void buttonOnClick(View view) {
-        WebView wv = findViewById(R.id.wv);
         task.cancel(true);
 
         mediaPlayer = MediaPlayer.create(this, R.raw.cat1a);
@@ -71,5 +77,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
         //
+    }
+
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return false;
+        }
     }
 }
